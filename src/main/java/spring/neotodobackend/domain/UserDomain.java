@@ -15,6 +15,7 @@ public class UserDomain {
     private String password;
     private String nickname;
     private String status;
+    private String refreshToken;
     private String registerDatetime;
     private String updateDatetime;
 
@@ -25,6 +26,7 @@ public class UserDomain {
                 .password(user.getPassword())
                 .nickname(user.getNickname())
                 .status(user.getStatus())
+                .refreshToken(user.getRefreshToken())
                 .registerDatetime(user.getUpdateDatetime() == null ? "0000-00-00 00:00:00" :user.getUpdateDatetime().toString())
                 .registerDatetime(user.getUpdateDatetime() == null ? "0000-00-00 00:00:00" :user.getUpdateDatetime().toString())
                 .build();

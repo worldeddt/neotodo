@@ -2,12 +2,14 @@ package spring.neotodobackend.application.todo.UpdateTodoUseCase;
 
 
 import jakarta.persistence.EntityManager;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import spring.neotodobackend.application.todo.UpdateTodoUseCase.dto.UpdateTodoUseCaseRequest;
 import spring.neotodobackend.application.todo.UpdateTodoUseCase.vo.UpdateTodoUseCaseRequestBody;
 import spring.neotodobackend.core.exceptions.CommonException;
+import spring.neotodobackend.core.utils.TokenExtractor;
 import spring.neotodobackend.domain.entity.Todo;
 import spring.neotodobackend.infra.TodoRepository;
 import spring.neotodobackend.interfaces.IRequest;

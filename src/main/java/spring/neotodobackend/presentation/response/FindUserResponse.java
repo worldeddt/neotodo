@@ -14,11 +14,13 @@ import spring.neotodobackend.core.BaseResponse;
 public class FindUserResponse extends BaseResponse {
     private String id;
     private String nickname;
+    private TokenInfo tokenInfo;
 
-    public static FindUserResponse init(String id, String nickname) {
+    public static FindUserResponse init(String id, String nickname, TokenInfo tokenInfo) {
         return FindUserResponse.builder()
                 .id(id)
                 .nickname(nickname)
+                .tokenInfo(tokenInfo)
                 .build();
     }
 }

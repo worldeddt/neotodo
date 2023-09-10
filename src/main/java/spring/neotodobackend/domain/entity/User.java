@@ -30,6 +30,10 @@ public class User {
     @Column(name = "nu_nickname", columnDefinition = "varchar(100) default ''", nullable = false)
     private String nickname;
 
+    @Comment("리프레시 토큰")
+    @Column(name = "nu_refresh", columnDefinition = "varchar(1000) default ''")
+    private String refreshToken;
+
     @Comment("유저 상태")
     @Column(name="nu_status", columnDefinition = "enum('ACTIVE', 'DELETED') default 'ACTIVE'")
     private String status;

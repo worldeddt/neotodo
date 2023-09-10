@@ -2,15 +2,12 @@ package spring.neotodobackend.core.exceptions;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import spring.neotodobackend.core.error.response.ErrorResponse;
-
-import java.util.List;
 
 
 @Slf4j
@@ -47,7 +44,8 @@ public class ExceptionControllerAdvice {
 
     private void logErrorMessage(Exception e, String url) {
         log.error("Request Url: {}", url);
-        log.error("Error: {}", e.toString());
+        log.error("e test",e.getMessage());
+        log.error("Error :", e.toString());
         log.error("StackTrace: ", e);
     }
 }

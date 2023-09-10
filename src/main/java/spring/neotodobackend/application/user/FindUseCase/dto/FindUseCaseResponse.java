@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import spring.neotodobackend.application.user.FindUseCase.vo.FindUseCaseResponseBody;
 import spring.neotodobackend.interfaces.IResponse;
+import spring.neotodobackend.presentation.response.TokenInfo;
 
 import java.util.List;
 
@@ -12,11 +13,13 @@ import java.util.List;
 public class FindUseCaseResponse implements IResponse<FindUseCaseResponseBody> {
     private String id;
     private String nickname;
+    private TokenInfo tokenInfo;
 
-    public static FindUseCaseResponse init(String id, String nickname) {
+    public static FindUseCaseResponse init(String id, String nickname, TokenInfo tokenInfo) {
         return FindUseCaseResponse.builder()
                 .id(id)
                 .nickname(nickname)
+                .tokenInfo(tokenInfo)
                 .build();
     }
 
@@ -29,7 +32,8 @@ public class FindUseCaseResponse implements IResponse<FindUseCaseResponseBody> {
     public FindUseCaseResponseBody getResponse() {
         return FindUseCaseResponseBody.init(
                 this.id,
-                this.nickname
+                this.nickname,
+                this.tokenInfo
         );
     }
 }

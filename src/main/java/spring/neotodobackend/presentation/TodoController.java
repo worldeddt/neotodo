@@ -1,10 +1,13 @@
 package spring.neotodobackend.presentation;
 
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import spring.neotodobackend.application.todo.CreateTodoUseCase.CreateTodoUseCase;
 import spring.neotodobackend.application.todo.CreateTodoUseCase.dto.CreateTodoUseCaseRequest;
@@ -12,6 +15,7 @@ import spring.neotodobackend.application.todo.CreateTodoUseCase.vo.CreateTodoUse
 import spring.neotodobackend.application.todo.DeleteTodoUseCase.DeleteTodoUseCase;
 import spring.neotodobackend.application.todo.DeleteTodoUseCase.dto.DeleteTodoUseCaseRequest;
 import spring.neotodobackend.application.todo.FindTodoUseCase.FindTodoUseCase;
+import spring.neotodobackend.application.todo.FindTodoUseCase.dto.FindTodoLastOneUseCaseResponse;
 import spring.neotodobackend.application.todo.UpdateTodoUseCase.UpdateTodoUseCase;
 import spring.neotodobackend.application.todo.UpdateTodoUseCase.dto.UpdateTodoUseCaseRequest;
 import spring.neotodobackend.config.ApiErrorCodeExample;
@@ -25,6 +29,9 @@ import spring.neotodobackend.presentation.request.DeleteTodoRequest;
 import spring.neotodobackend.presentation.request.UpdateTodoRequest;
 import spring.neotodobackend.presentation.response.CreateTodoResponse;
 import spring.neotodobackend.presentation.response.FindTodoListResponse;
+import spring.neotodobackend.presentation.response.FindTodoResponse;
+
+import java.util.Arrays;
 
 
 @RequestMapping(value = "/v1/todo")
@@ -39,17 +46,19 @@ public class TodoController {
 
     @ApiErrorCodeExample({BadRequestCode.class, NotFoundCode.class})
     @GetMapping(value = "/")
-    public ResponseEntity<FindTodoListResponse> get() {
-        IResponse<TodoDomain> todoDomainIResponse = this.findTodoUseCase.execute();
+    public ResponseEntity<FindTodoListResponse> get(HttpServletRequest request) {
+
+        IResponse<TodoDomain> todoDomainIResponse = this.findTodoUseCase.execute(request);
 
         return ResponseEntity.ok(FindTodoListResponse.init(todoDomainIResponse.getResponses()));
     }
 
     @GetMapping(value = "/last")
-    public ResponseEntity<FindTodoListResponse> getLastOne() {
-        IResponse<TodoDomain> todoDomainIResponse = this.findTodoUseCase.execute();
+    public ResponseEntity<FindTodoResponse> getLastOne(HttpServletRequest request) {
+        IResponse<TodoDomain> todoDomainIResponse = this.findTodoUseCase.executeLastOne(request);
 
-        return ResponseEntity.ok(FindTodoListResponse.init(todoDomainIResponse.getResponses()));
+        TodoDomain todoDomain = todoDomainIResponse.getResponse();
+        return ResponseEntity.ok(FindTodoResponse.init(todoDomain));
     }
 
     @ApiErrorCodeExample({BadRequestCode.class, NotFoundCode.class})
@@ -59,18 +68,20 @@ public class TodoController {
                 UpdateTodoUseCaseRequest.init(
                         updateTodoRequest.getIndex(),
                         updateTodoRequest.getTitle(),
-                        updateTodoRequest.getIsChecked()));
+                        updateTodoRequest.getProgressStatus()));
 
         return ResponseEntity.ok(new BaseResponse());
     }
 
     @ApiErrorCodeExample({BadRequestCode.class, NotFoundCode.class})
     @PostMapping(value = "/create")
-    public ResponseEntity<CreateTodoResponse> create(@RequestBody @Valid CreateTodoRequest createTodoRequest) {
+    public ResponseEntity<CreateTodoResponse> create(
+            @RequestBody @Valid CreateTodoRequest createTodoRequest, HttpServletRequest request) {
         IResponse<CreateTodoUseCaseResponseBody> createTodoUseCaseResponseBodyIResponse =
-                this.createTodoUseCase.create(CreateTodoUseCaseRequest.init(createTodoRequest.getTitle()));
+                this.createTodoUseCase.create(CreateTodoUseCaseRequest.init(createTodoRequest.getTitle()), request);
 
-        return ResponseEntity.ok(CreateTodoResponse.init(createTodoUseCaseResponseBodyIResponse.getResponse().getIndex()));
+        return ResponseEntity.ok(CreateTodoResponse.init(
+                createTodoUseCaseResponseBodyIResponse.getResponse().getIndex()));
     }
 
     @ApiErrorCodeExample({BadRequestCode.class, NotFoundCode.class})

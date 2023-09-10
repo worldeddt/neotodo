@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import spring.neotodobackend.application.todo.FindTodoUseCase.FindTodoUseCase;
 import spring.neotodobackend.application.user.FindUseCase.FindUseCase;
 import spring.neotodobackend.application.user.FindUseCase.dto.FindUseCaseRequest;
 import spring.neotodobackend.application.user.FindUseCase.vo.FindUseCaseResponseBody;
@@ -61,7 +62,10 @@ public class UserController {
                 )
         );
 
-        return ResponseEntity.ok(FindUserResponse.init(login.getResponse().getId(), login.getResponse().getNickname()));
+        return ResponseEntity.ok(FindUserResponse.init(
+                login.getResponse().getId(),
+                login.getResponse().getNickname(),
+                login.getResponse().getTokenInfo()));
     }
 
     @ApiErrorCodeExample({BadRequestCode.class, NotFoundCode.class})

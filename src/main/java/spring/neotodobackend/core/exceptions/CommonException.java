@@ -12,7 +12,7 @@ import spring.neotodobackend.core.BaseCode;
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
 public class CommonException extends RuntimeException {
-    private final BaseCode baseCode;
+    private BaseCode baseCode;
 
     public static CommonException init(BaseCode baseCode) {
         return CommonException.builder().baseCode(baseCode).build();
