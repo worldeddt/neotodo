@@ -19,7 +19,7 @@ public class User {
     private Integer index;
 
     @Comment("아이디")
-    @Column(name = "nu_index", columnDefinition = "varchar(50) default''", nullable = false)
+    @Column(name = "nu_id", columnDefinition = "varchar(50) default''", nullable = false)
     private String id;
 
     @Comment("비밀번호")

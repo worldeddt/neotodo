@@ -10,7 +10,6 @@ import spring.neotodobackend.domain.TodoDomain;
 
 import java.util.List;
 
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Getter

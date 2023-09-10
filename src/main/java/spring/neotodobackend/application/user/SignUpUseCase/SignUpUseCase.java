@@ -2,6 +2,7 @@ package spring.neotodobackend.application.user.SignUpUseCase;
 
 
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import spring.neotodobackend.application.user.SignUpUseCase.dto.SignUpUseCaseResponse;
@@ -14,6 +15,7 @@ import spring.neotodobackend.infra.UserRepository;
 import spring.neotodobackend.interfaces.IRequest;
 import spring.neotodobackend.interfaces.IResponse;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static spring.neotodobackend.core.error.enums.BadRequestCode.DUPLICATE_ID;
@@ -21,13 +23,13 @@ import static spring.neotodobackend.core.error.enums.BadRequestCode.DUPLICATE_NI
 
 @Service
 @AllArgsConstructor
-
 public class SignUpUseCase {
     private UserRepository userRepository;
 //    private final static BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     private EntityManager entityManager;
 
+    @Transactional(rollbackOn = Exception.class)
     public IResponse<SignUpUseCaseResponseBody> signUp(IRequest<SignUpUseCaseRequestBody> iRequest) {
 
         SignUpUseCaseRequestBody conditions = iRequest.getConditions();
@@ -46,6 +48,8 @@ public class SignUpUseCase {
         user.setNickname(conditions.getNickname());
         user.setId(conditions.getId());
         user.setPassword(conditions.getPassword());
+        user.setRegisterDatetime(LocalDateTime.now());
+        user.setStatus(UserStatus.ACTIVE.name());
 
         entityManager.persist(user);
 
