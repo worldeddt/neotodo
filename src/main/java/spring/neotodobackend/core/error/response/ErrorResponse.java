@@ -1,14 +1,18 @@
 package spring.neotodobackend.core.error.response;
 
-import lombok.AccessLevel;
-import lombok.Builder;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import spring.neotodobackend.core.BaseCode;
 
+import static lombok.AccessLevel.PRIVATE;
 
-@Builder(access = AccessLevel.PRIVATE)
+
+@Getter
+@NoArgsConstructor
+@Builder(access = PRIVATE)
+@AllArgsConstructor(access = PRIVATE)
 @Slf4j
 public class ErrorResponse {
     private Integer status;
