@@ -5,10 +5,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import spring.neotodobackend.application.todo.FindTodoUseCase.FindTodoUseCase;
 import spring.neotodobackend.application.user.FindUseCase.FindUseCase;
 import spring.neotodobackend.application.user.FindUseCase.dto.FindUseCaseRequest;
 import spring.neotodobackend.application.user.FindUseCase.vo.FindUseCaseResponseBody;
@@ -38,7 +38,7 @@ public class UserController {
     private final FindUseCase findUseCase;
 
     @ApiErrorCodeExample({BadRequestCode.class, NotFoundCode.class})
-    @RequestMapping(value="/signUp")
+    @PostMapping(value="/signUp")
     public ResponseEntity<SignUpUserResponse> signUp(@RequestBody @Valid UserSignUpRequest userSignUpRequest) {
 
         IResponse<SignUpUseCaseResponseBody> signUpUseCaseResponseBodyIResponse = this.signUpUseCase.signUp(
@@ -53,7 +53,7 @@ public class UserController {
     }
 
     @ApiErrorCodeExample({BadRequestCode.class, NotFoundCode.class})
-    @RequestMapping(value="/login")
+    @PostMapping(value="/login")
     public ResponseEntity<FindUserResponse> login(@RequestBody @Valid UserLoginRequest userLoginRequest) {
 
         IResponse<FindUseCaseResponseBody> login = this.findUseCase.login(
@@ -69,7 +69,7 @@ public class UserController {
     }
 
     @ApiErrorCodeExample({BadRequestCode.class, NotFoundCode.class})
-    @RequestMapping(value="/signOut")
+    @PostMapping(value="/signOut")
     public ResponseEntity<BaseResponse> signOut(@RequestBody @Valid UserSignOutRequest userSignOutRequest) {
         signOutUseCase.signOut(SignOutUseCaseRequest.init(userSignOutRequest.getId()));
 
